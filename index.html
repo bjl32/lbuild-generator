@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- file saver lib -->
+    <script>
+        (function (a, b) { if ("function" == typeof define && define.amd) define([], b); else if ("undefined" != typeof exports) b(); else { b(), a.FileSaver = { exports: {} }.exports } })(this, function () { "use strict"; function b(a, b) { return "undefined" == typeof b ? b = { autoBom: !1 } : "object" != typeof b && (console.warn("Deprecated: Expected third argument to be a object"), b = { autoBom: !b }), b.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a.type) ? new Blob(["\uFEFF", a], { type: a.type }) : a } function c(a, b, c) { var d = new XMLHttpRequest; d.open("GET", a), d.responseType = "blob", d.onload = function () { g(d.response, b, c) }, d.onerror = function () { console.error("could not download file") }, d.send() } function d(a) { var b = new XMLHttpRequest; b.open("HEAD", a, !1); try { b.send() } catch (a) { } return 200 <= b.status && 299 >= b.status } function e(a) { try { a.dispatchEvent(new MouseEvent("click")) } catch (c) { var b = document.createEvent("MouseEvents"); b.initMouseEvent("click", !0, !0, window, 0, 0, 0, 80, 20, !1, !1, !1, !1, 0, null), a.dispatchEvent(b) } } var f = "object" == typeof window && window.window === window ? window : "object" == typeof self && self.self === self ? self : "object" == typeof global && global.global === global ? global : void 0, a = f.navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent), g = f.saveAs || ("object" != typeof window || window !== f ? function () { } : "download" in HTMLAnchorElement.prototype && !a ? function (b, g, h) { var i = f.URL || f.webkitURL, j = document.createElement("a"); g = g || b.name || "download", j.download = g, j.rel = "noopener", "string" == typeof b ? (j.href = b, j.origin === location.origin ? e(j) : d(j.href) ? c(b, g, h) : e(j, j.target = "_blank")) : (j.href = i.createObjectURL(b), setTimeout(function () { i.revokeObjectURL(j.href) }, 4E4), setTimeout(function () { e(j) }, 0)) } : "msSaveOrOpenBlob" in navigator ? function (f, g, h) { if (g = g || f.name || "download", "string" != typeof f) navigator.msSaveOrOpenBlob(b(f, h), g); else if (d(f)) c(f, g, h); else { var i = document.createElement("a"); i.href = f, i.target = "_blank", setTimeout(function () { e(i) }) } } : function (b, d, e, g) { if (g = g || open("", "_blank"), g && (g.document.title = g.document.body.innerText = "downloading..."), "string" == typeof b) return c(b, d, e); var h = "application/octet-stream" === b.type, i = /constructor/i.test(f.HTMLElement) || f.safari, j = /CriOS\/[\d]+/.test(navigator.userAgent); if ((j || h && i || a) && "undefined" != typeof FileReader) { var k = new FileReader; k.onloadend = function () { var a = k.result; a = j ? a : a.replace(/^data:[^;]*;/, "data:attachment/file;"), g ? g.location.href = a : location = a, g = null }, k.readAsDataURL(b) } else { var l = f.URL || f.webkitURL, m = l.createObjectURL(b); g ? g.location = m : location.href = m, g = null, setTimeout(function () { l.revokeObjectURL(m) }, 4E4) } }); f.saveAs = g.saveAs = g, "undefined" != typeof module && (module.exports = g) });
+        //# sourceMappingURL=FileSaver.min.js.map
+    </script>
+
+    <script>
+        function gen() {
+            const PACKAGE_NAME = document.getElementById("PACKAGE_NAME").value;
+            const PACKAGE_VERSION = document.getElementById("PACKAGE_VERSION").value;
+            const TYPE = document.getElementById("TYPE").value;
+            const Maintainers = document.getElementById("Maintainers").value;
+            const LICENCE = document.getElementById("LICENCE").value;
+            const PKGDESC = document.getElementById("PKGDESC").value;
+            const HOMEPAGE = document.getElementById("HOMEPAGE").value;
+            const SRC_URI = document.getElementById("SRC_URI").value;
+            const PATCH_URI = document.getElementById("PATCH_URI").value;
+            const SOURCES = document.getElementById("SOURCES").value;
+            const SRC_PREPARE = document.getElementById("SRC_PREPARE").value;
+            const DEPEND = document.getElementById("DEPEND").value;
+            const AS_DEPEND_INSTALL_FIRST = document.getElementById("AS_DEPEND_INSTALL_FIRST").value;
+            const REBUILD_AFTER_INSTALL = document.getElementById("REBUILD_AFTER_INSTALL").value;
+            const SRC_BUILD = document.getElementById("SRC_BUILD").value;
+            const SRC_INSTALL = document.getElementById("SRC_INSTALL").value;
+            const SRC_PREINSTALL = document.getElementById("SRC_PREINSTALL").value;
+            const SRC_POST_INSTALL = document.getElementById("SRC_POST_INSTALL").value;
+            const fileName = document.getElementById("fileName").value;
+
+            if (fileName == "") {
+                alert("请输入文件名");
+                return;
+            }
+            let data = `
+PACKAGE_NAME=[[${PACKAGE_NAME}]]
+
+PACKAGE_VERSION=[[${PACKAGE_VERSION}]]
+
+TYPE=[[${TYPE}]]
+
+Maintainers=[[${Maintainers}]]
+
+LICENCE=[[
+    ${LICENCE}
+]]
+
+PKGDESC = [[
+    ${PKGDESC}
+]]
+
+HOMEPAGE=[[${HOMEPAGE}]]
+
+SRC_URI=[[${SRC_URI}]]
+PATCH_URI=[[${PATCH_URI}]]
+
+SOURCES=[[${SOURCES}]]
+
+SRC_PREPARE = [[
+    ${SRC_PREPARE}
+]]
+
+DEPEND=[[
+    ${DEPEND}
+]]
+
+AS_DEPEND_INSTALL_FIRST=[[${AS_DEPEND_INSTALL_FIRST}]]
+REBUILD_AFTER_INSTALL=[[${REBUILD_AFTER_INSTALL}]]
+
+SRC_BUILD=[[
+    ${SRC_BUILD}
+]]
+
+SRC_INSTALL=[[
+    ${SRC_INSTALL}
+]]
+
+SRC_PREINSTALL=[[${SRC_PREINSTALL}]]
+SRC_POST_INSTALL=[[${SRC_POST_INSTALL}]]
+`
+            saveFile(data, fileName);
+        }
+        function saveFile(data, fileName) {
+            const text = data;
+            const blob = new Blob([text], { type: "text/plain" });
+            saveAs(blob, fileName + ".lbuild");
+        }
+    </script>
+
+    <style>
+        div {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        PACKAGE_NAME(包名): <textarea type="text" name="" id="PACKAGE_NAME" placeholder="glibc"></textarea>
+    </div>
+    <div>
+        PACKAGE_VERSION(版本): <textarea type="text" name="" id="PACKAGE_VERSION" placeholder="2.40"></textarea>
+    </div>
+    <div>
+        TYPE(类型): <textarea type="text" name="" id="TYPE">lfs-base</textarea>
+    </div>
+    <div>
+        Maintainers(贡献者): <textarea type="text" name="" id="Maintainers" placeholder="lsc"></textarea>
+    </div>
+    <div>
+        LICENCE(许可): <textarea type="text" name="" id="LICENCE"></textarea>
+    </div>
+    <div>
+        PKGDESC(描述): <textarea type="text" name="" id="PKGDESC" placeholder="The Glibc package contains the main C library. This library provides the basic routines for allocating memory, searching directories, opening and closing files, reading and writing files, string handling, pattern matching, arithmetic, and so on. "></textarea>
+    </div>
+    <div>
+        HOMEPAGE(包主页): <textarea type="text" name="" id="HOMEPAGE" placeholder="https://www.gnu.org/software/libc/"></textarea>
+    </div>
+    <div>
+        SRC_URI(源码地址): <textarea type="text" name="" id="SRC_URI" placeholder="https://ftp.gnu.org/gnu/glibc/glibc-2.40.tar.xz"></textarea>
+    </div>
+    <div>
+        PATCH_URI(补丁地址): <textarea type="text" name="" id="PATCH_URI" placeholder="https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.40-fhs-1.patch"></textarea>
+    </div>
+    <div>
+        SOURCES(源码文件名): <textarea type="text" name="" id="SOURCES" placeholder="glibc-2.40.tar.xz"></textarea>
+    </div>
+    <div>
+        SRC_PREPARE(源码准备命令): <textarea type="text" name="" id="SRC_PREPARE" placeholder="
+tar xf $DIST_DIR/$pkgname-$pkgver/$sources0 --strip-components=1
+patch -Np1 -i $DIST_DIR/$pkgname-$pkgver/glibc-2.40-fhs-1.patch"></textarea>
+    </div>
+    <div>
+        DEPEND(依赖): <textarea type="text" name="" id="DEPEND" placeholder="
+bash
+gcc
+binutils
+coreutils
+diffutils
+gawk
+gettext
+grep
+gzip
+make
+perl
+sed
+python"></textarea>
+    </div>
+    <div>
+        AS_DEPEND_INSTALL_FIRST: <textarea type="text" name="" id="AS_DEPEND_INSTALL_FIRST"></textarea>
+    </div>
+    <div>
+        REBUILD_AFTER_INSTALL: <textarea type="text" name="" id="REBUILD_AFTER_INSTALL"></textarea>
+    </div>
+    <div>
+        SRC_BUILD(编译命令): <textarea type="text" name="" id="SRC_BUILD" placeholder='
+mkdir -v build &&
+cd build &&
+echo "rootsbindir=/usr/sbin" > configparms &&
+../configure --prefix=/usr                            \
+             --disable-werror                         \
+             --enable-kernel=5.4                      \
+             --enable-stack-protector=strong          \
+             --disable-nscd                           \
+             libc_cv_slibdir=/usr/lib &&
+             make'></textarea>
+    </div>
+    <div>
+        SRC_INSTALL(安装命令): <textarea type="text" name="" id="SRC_INSTALL" placeholder="make install DESTDIR=$DESTDIR
+    sed '/RTLDLIST=/s@/usr@@g' -i $DESTDIR/usr/bin/ldd">make install DESTDIR=$DESTDIR</textarea>
+    </div>
+    <div>
+        SRC_PREINSTALL: <textarea type="text" name="" id="SRC_PREINSTALL"></textarea>
+    </div>
+    <div>
+        SRC_POST_INSTALL: <textarea type="text" name="" id="SRC_POST_INSTALL" placeholder="ldconfig"></textarea>
+    </div>
+
+    <hr>
+    <div>
+        file name: <input type="text" name="" id="fileName">.lbuild
+    </div>
+    <br>
+    <div>
+        <button onclick="gen()">generate .lbuild file</button>
+    </div>
+
+</body>
+
+</html>
